@@ -64,7 +64,7 @@ jobs:
       run: |
           ssh deploy_ec2 "mkdir temp"
           ssh deploy_ec2 "git clone https://github.com/muhammadalifaqsha/credit-mlprocess-new.git temp"
-          ssh deploy_ec2 "rsync -a ./temp ./credit-mlprocess-new"
+          ssh deploy_ec2 "rsync -a temp/ credit-mlprocess-new"
           #ssh deploy_ec2 "rm -rf temp/"
           #ssh deploy_ec2 "cd credit-mlprocess-new"
           #ssh deploy_ec2 "cd credit-mlprocess-new && sudo docker compose down"
