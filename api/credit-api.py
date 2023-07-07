@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi import Request
 from numpy import log
+from pandas import DataFrame
 import pickle
 import uvicorn
 
@@ -43,6 +44,14 @@ def load_scaler():
             'messages': str(e)
         }
         return response
+
+def scaler_transform(data, scaler):
+    data_scaled = scaler.transform(data)
+    data_scaled = DataFrame(data_scaled)
+    data_scaled.columns = data.columns
+    data_scaled.index = data.index
+
+    return data_scaled
     
 @app.get('/check')
 async def check():
@@ -60,42 +69,33 @@ async def predict(data: Request):
     # load request
     data = await data.json()
     
-    revolving = data['RevolvingUtilizationOfUnsecuredLines']
-    age = data['age']
-    num_times_30_59 = data['NumberOfTime30-59DaysPastDueNotWorse']
-    debt_ratio = data['DebtRatio']
-    monthly_income = data['MonthlyIncome']
-    open_cred_lines = data['NumberOfOpenCreditLinesAndLoans']
-    num_times_90_worse = data['NumberOfTimes90DaysLate']
-    real_estate_loans = data['NumberRealEstateLoansOrLines']
-    num_times_60_89 = data['NumberOfTime60-89DaysPastDueNotWorse']
-    num_dependents = data['NumberOfDependents']
-    type_customer = data['TypeCustomer']
-    log_income = log(monthly_income + 1)
-    log_log_revolving = log(log(revolving + 1) + 1)
-    log_debt_ratio = log(debt_ratio + 1)
+    data['LogMonthlyIncome'] = log(data['MonthlyIncome'] + 1)
+    data['LogLogRevolvingUtilizationOfUnsecuredLines'] = log(log(data['RevolvingUtilizationOfUnsecuredLines'] + 1) + 1) 
+    data['LogDebtRatio'] = log(data['DebtRatio'] + 1e-05)
 
-    data_order = [revolving,
-                  age,
-                  num_times_30_59,
-                  debt_ratio,
-                  monthly_income,
-                  open_cred_lines,
-                  num_times_90_worse,
-                  real_estate_loans,
-                  num_times_60_89,
-                  num_dependents,
-                  type_customer,
-                  log_income,
-                  log_log_revolving,
-                  log_debt_ratio]
+    data_df = DataFrame(data)
+
+    # data_order = [revolving,
+    #               age,
+    #               num_times_30_59,
+    #               debt_ratio,
+    #               monthly_income,
+    #               open_cred_lines,
+    #               num_times_90_worse,
+    #               real_estate_loans,
+    #               num_times_60_89,
+    #               num_dependents,
+    #               type_customer,
+    #               log_income,
+    #               log_log_revolving,
+    #               log_debt_ratio]
 
     model = load_model()
     scaler = load_scaler()
     label = ['Approved', 'Rejected']
 
     try:
-        scaled_data = scaler.transform([data_order])
+        scaled_data = scaler_transform(data_df, scaler)
         prediction = model.predict(scaled_data) #[[0]] --> [  [0]  ]  
         response = {
             'status': 200,
