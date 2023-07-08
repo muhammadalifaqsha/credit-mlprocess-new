@@ -21,4 +21,4 @@
 
 # Note on Local Deployment
 
-If you want to clone & deploy this repository in your local environment, you might want to modify the "credit-api.py" file (in the api folder) with this: [modifified credit-api.py](https://github.com/muhammadalifaqsha/credit-mlprocess/blob/main/api/credit-api.py)
+If you want to clone & deploy this repository in your local environment, you might want to modify the "credit-api.py" file (in the api folder) with this: [modified credit-api.py](https://github.com/muhammadalifaqsha/credit-mlprocess/blob/main/api/credit-api.py)
