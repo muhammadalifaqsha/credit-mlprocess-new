@@ -11,3 +11,5 @@
 <img src="https://i.ibb.co/mcmRk0z/Features-Engineering-1.png" width="800">
 
 # Modelling & Evaluation
+
+<img src="https://i.ibb.co/CQ4YSXS/Modelling-Evaluation-1.png" width="800">
