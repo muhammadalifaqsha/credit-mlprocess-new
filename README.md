@@ -4,10 +4,10 @@
 
 # Data Preprocessing
 
-<img src="https://i.ibb.co/T1g8sfW/Data-Preprocessing.png" width="400">
+<img src="https://i.ibb.co/T1g8sfW/Data-Preprocessing.png" width="800">
 
 # Features Engineering
 
-<img src="https://i.ibb.co/mcmRk0z/Features-Engineering-1.png" width="400">
+<img src="https://i.ibb.co/mcmRk0z/Features-Engineering-1.png" width="800">
 
 # Modelling & Evaluation
